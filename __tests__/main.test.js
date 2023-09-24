@@ -9,7 +9,11 @@ const core = require('@actions/core')
 const main = require('../src/main')
 
 // Mock the GitHub Actions core library
-const debugMock = jest.spyOn(core, 'debug').mockImplementation()
+jest.spyOn(core, 'debug').mockImplementation()
+jest.spyOn(core, 'info').mockImplementation()
+jest.spyOn(core, 'warning').mockImplementation()
+jest.spyOn(core, 'setSecret').mockImplementation()
+
 const getInputMock = jest.spyOn(core, 'getInput').mockImplementation()
 const setFailedMock = jest.spyOn(core, 'setFailed').mockImplementation()
 const setOutputMock = jest.spyOn(core, 'setOutput').mockImplementation()
@@ -17,84 +21,130 @@ const setOutputMock = jest.spyOn(core, 'setOutput').mockImplementation()
 // Mock the action's main function
 const runMock = jest.spyOn(main, 'run')
 
-// Other utilities
-const timeRegex = /^\d{2}:\d{2}:\d{2}/
+// Mock the sgnl object
+jest.mock('../src/sgnl')
+const { sgnl } = require('../src/sgnl')
 
 describe('action', () => {
   beforeEach(() => {
     jest.clearAllMocks()
-  })
 
-  it('sets the time output', async () => {
-    // Set the action's inputs as return values from core.getInput()
+    // typical inputs
     getInputMock.mockImplementation(name => {
       switch (name) {
-        case 'milliseconds':
-          return '500'
+        case 'token':
+          return 't'
+        case 'domain':
+          return 'abc.xyz'
+        case 'principalId':
+          return 'p'
+        case 'assetId':
+          return 'a'
+        case 'action':
+          return 'b'
         default:
           return ''
       }
     })
-
-    await main.run()
-    expect(runMock).toHaveReturned()
-
-    // Verify that all of the core library functions were called correctly
-    expect(debugMock).toHaveBeenNthCalledWith(1, 'Waiting 500 milliseconds ...')
-    expect(debugMock).toHaveBeenNthCalledWith(
-      2,
-      expect.stringMatching(timeRegex)
-    )
-    expect(debugMock).toHaveBeenNthCalledWith(
-      3,
-      expect.stringMatching(timeRegex)
-    )
-    expect(setOutputMock).toHaveBeenNthCalledWith(
-      1,
-      'time',
-      expect.stringMatching(timeRegex)
-    )
   })
 
-  it('sets a failed status', async () => {
-    // Set the action's inputs as return values from core.getInput()
-    getInputMock.mockImplementation(name => {
-      switch (name) {
-        case 'milliseconds':
-          return 'this is not a number'
-        default:
-          return ''
+  // returns a Deny
+  it('fails job on a Deny response', async () => {
+    sgnl.mockImplementation(() => {
+      return {
+        decision: false,
+        reason: "Sorry Dave, I can't do that"
       }
     })
 
     await main.run()
-    expect(runMock).toHaveReturned()
-
-    // Verify that all of the core library functions were called correctly
-    expect(setFailedMock).toHaveBeenNthCalledWith(
-      1,
-      'milliseconds not a number'
-    )
+    expect(sgnl).toHaveBeenCalled()
+    expect(setFailedMock).toHaveBeenCalledWith("Sorry Dave, I can't do that")
   })
 
-  it('fails if no input is provided', async () => {
-    // Set the action's inputs as return values from core.getInput()
-    getInputMock.mockImplementation(name => {
-      switch (name) {
-        case 'milliseconds':
-          throw new Error('Input required and not supplied: milliseconds')
-        default:
-          return ''
+  // returns a Deny
+  it('fails job on a Deny response, with empty reason', async () => {
+    sgnl.mockImplementation(() => {
+      return {
+        decision: false
       }
     })
 
     await main.run()
-    expect(runMock).toHaveReturned()
+    expect(sgnl).toHaveBeenCalled()
+    expect(setFailedMock).toHaveBeenCalled()
+  })
 
-    // Verify that all of the core library functions were called correctly
-    expect(setFailedMock).toHaveBeenNthCalledWith(
-      1,
-      'Input required and not supplied: milliseconds'
+  // returns an Allow
+  it('does not fail job on a Allow response', async () => {
+    sgnl.mockImplementation(() => {
+      return {
+        decision: true,
+        reason: 'affirmative!'
+      }
+    })
+
+    await main.run()
+    expect(sgnl).toHaveBeenCalled()
+    expect(setFailedMock).not.toHaveBeenCalled()
+  })
+
+  // returns a Allow
+  it('does not fail job on a Allow response, with empty reason', async () => {
+    sgnl.mockImplementation(() => {
+      return {
+        decision: true
+      }
+    })
+
+    await main.run()
+    expect(sgnl).toHaveBeenCalled()
+    expect(setFailedMock).not.toHaveBeenCalled()
+  })
+
+  // throw 401 exception
+  it('fails job on non-200 error', async () => {
+    sgnl.mockImplementation(() => {
+      const e = new Error()
+      e.response = {
+        data: {},
+        status: 401,
+        headers: {}
+      }
+      e.toJSON = () => {
+        return 'failed!'
+      }
+      throw e
+    })
+
+    await main.run()
+    expect(sgnl).toHaveBeenCalled()
+    expect(setFailedMock).toHaveBeenCalledWith('failed!')
+  })
+
+  // request error
+  it('fails job on a request error', async () => {
+    sgnl.mockImplementation(() => {
+      const e = new Error()
+      e.request = 'request failed'
+      throw e
+    })
+
+    await main.run()
+    expect(sgnl).toHaveBeenCalled()
+    expect(setFailedMock).toHaveBeenCalledWith(
+      'SGNL API did not respond, details:\nrequest failed'
     )
+  })
+
+  // raise error from query
+  it('fails job on Query validation error', async () => {
+    sgnl.mockImplementation(() => {
+      throw new Error('Sorry!')
+    })
+
+    await main.run()
+    expect(sgnl).toHaveBeenCalled()
+    expect(setFailedMock).toHaveBeenCalledWith('Sorry!')
   })
 })
