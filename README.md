@@ -31,3 +31,48 @@ steps:
     id: output
     run: echo "Decision '${{ steps.sgnl.outputs.decision }}', Reason '${{ steps.sgnl.outputs.reason }}'"
 ```
+
+### Reporting bugs
+If you run into problems with this action, first please check https://help.sgnl.ai and https://developer.sgnl.ai. If that doesn't resolve the problem, please open a github ticket against this repository.
+
+## Building and Releasing
+
+This section is for instructions on how to build and release the policy-action
+
+### Setting up
+1. This action is written in javascript. You'll need a version of nodejs >= v20 (`node --version`)
+1. clone the repo
+1. run `npm run install` to install the dependencies
+
+### Build loop
+1. create a feature branch
+1. add tests & make changes
+1. `npm run tests` should be green
+1. `npm run all` to package the release (this creates the bundled action in /dist)
+1. push your branch
+1. create a PR
+
+### Testing
+Tests are using [Jest](https://jestjs.io/)
+
+### Releasing
+After a release is merged, the release has to be tagged so other projects can use it correctly.
+
+Tags should ideally be signed. See [github documentation](https://docs.github.com/en/authentication/managing-commit-signature-verification/telling-git-about-your-signing-key) on setting up signing
+
+> [!NOTE]
+> Example: You are releasing a backwards compatible feature to the v1 major release.
+> Let's assume the next release is v1.4.0 (i.e. not a patch, not a breaking change)
+> You would do the following to create the tags
+
+Updating the existing v1 tag so existing workflows can take advantage of your new feature
+
+`git tag -s -f -m "update v1 tag"`
+
+Create a new tag to track your new feature more specifically
+
+`git tag -s -m "update v1.4.0 tag"`
+
+Push the tags up to github. The `-f` is required to update the v1 tag
+
+`git push --tags --force`
