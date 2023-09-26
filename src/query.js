@@ -26,6 +26,12 @@ class Query {
       '/access/v2/evaluations',
       ['https://', domain].join('')
     )
+
+    if (!this.endpointUrl.protocol === 'https') {
+      throw new Error(
+        `Invalid API endpoint from domain ${domain}. Endpoint must be https://`
+      )
+    }
   }
 
   headers() {

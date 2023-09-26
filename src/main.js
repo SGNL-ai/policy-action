@@ -9,6 +9,15 @@ const { Query } = require('./query')
  * @returns {Promise<void>} Resolves when the action is complete.
  */
 async function run() {
+  // skip calling SGNL if bypassMode is true.
+  if (core.getInput('bypassMode')) {
+    core.warning('*** WARNING: BYPASS MODE ENABLED ***')
+    core.warning('*** Skipping SGNL Policy Checks ***')
+    core.setOutput('reason', 'Skipping SGNL call due to bypassMode=true')
+    core.setOutput('decision', true)
+    return
+  }
+
   // construct a Query object; this validates the input and raises an error if
   // the params are malformed
   try {
