@@ -11,12 +11,13 @@ const main = require('../src/main')
 // Mock the GitHub Actions core library
 jest.spyOn(core, 'debug').mockImplementation()
 jest.spyOn(core, 'info').mockImplementation()
-jest.spyOn(core, 'warning').mockImplementation()
+const warning = jest.spyOn(core, 'warning').mockImplementation()
 jest.spyOn(core, 'setSecret').mockImplementation()
 
 const getInputMock = jest.spyOn(core, 'getInput').mockImplementation()
 const setFailedMock = jest.spyOn(core, 'setFailed').mockImplementation()
 const setOutputMock = jest.spyOn(core, 'setOutput').mockImplementation()
+
 
 // Mock the action's main function
 const runMock = jest.spyOn(main, 'run')
@@ -25,27 +26,61 @@ const runMock = jest.spyOn(main, 'run')
 jest.mock('../src/sgnl')
 const { sgnl } = require('../src/sgnl')
 
+// fixture
+let inputs
+
 describe('action', () => {
   beforeEach(() => {
     jest.clearAllMocks()
 
     // typical inputs
     getInputMock.mockImplementation(name => {
-      switch (name) {
-        case 'token':
-          return 't'
-        case 'domain':
-          return 'abc.xyz'
-        case 'principalId':
-          return 'p'
-        case 'assetId':
-          return 'a'
-        case 'action':
-          return 'b'
-        default:
-          return ''
-      }
+      return inputs[name]
     })
+
+    inputs = {
+      token: 't',
+      domain: 'abc.xyz',
+      principalId: 'p',
+      assetId: 'a',
+      action: 'b',
+      bypassMode: false
+    }
+  })
+
+  it('skip SGNL API if bypass mode is true', async () => {
+    inputs.bypassMode = true
+
+    await main.run()
+    expect(core.getInput('bypassMode')).toBe(true)
+    expect(sgnl).not.toHaveBeenCalled()
+  })
+
+  it('prints lots of warnings if bypas mode is true', async () => {
+    inputs.bypassMode = true
+
+    await main.run()
+    expect(core.getInput('bypassMode')).toBe(true)
+    expect(warning).toHaveBeenNthCalledWith(
+      1,
+      '*** WARNING: BYPASS MODE ENABLED ***'
+    )
+    expect(warning).toHaveBeenNthCalledWith(
+      2,
+      '*** Skipping SGNL Policy Checks ***'
+    )
+  })
+
+  it('sets the output to true when bypass mode is enabled', async () => {
+    inputs.bypassMode = true
+
+    await main.run()
+    expect(setOutputMock).toHaveBeenNthCalledWith(
+      1,
+      'reason',
+      'Skipping SGNL call due to bypassMode=true'
+    )
+    expect(setOutputMock).toHaveBeenNthCalledWith(2, 'decision', true)
   })
 
   // returns a Deny
