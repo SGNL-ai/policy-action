@@ -11,7 +11,7 @@ const { Query } = require('./query')
  * @param {String} principleId The identity of the principal executing this action. Typically a github username or email address.
  * @param {String} assetId The identifier of an asset for this policy check. Typically the repo from the action. At least one of 'assetId' or 'action' is required.
  * @param {String} action An optional action to pass to SGNL. At least one of 'assetId' or 'action' is required.
- * @returns {Promise<String>} Resolves with {decision:boolean,reason:String}
+ * @returns {Promise<Object>} Resolves with {decision:boolean,reason:String}
  */
 async function sgnl(query) {
   const response = await axios.post(query.endpoint(), query.payload(), {
