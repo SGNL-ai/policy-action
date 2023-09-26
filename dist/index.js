@@ -6197,6 +6197,15 @@ const { Query } = __nccwpck_require__(869)
  * @returns {Promise<void>} Resolves when the action is complete.
  */
 async function run() {
+  // skip calling SGNL if bypassMode is true.
+  if (core.getInput('bypassMode')) {
+    core.warning('*** WARNING: BYPASS MODE ENABLED ***')
+    core.warning('*** Skipping SGNL Policy Checks ***')
+    core.setOutput('reason', 'Skipping SGNL call due to bypassMode=true')
+    core.setOutput('decision', true)
+    return
+  }
+
   // construct a Query object; this validates the input and raises an error if
   // the params are malformed
   try {
@@ -6291,6 +6300,12 @@ class Query {
       '/access/v2/evaluations',
       ['https://', domain].join('')
     )
+
+    if (!this.endpointUrl.protocol === 'https') {
+      throw new Error(
+        `Invalid API endpoint from domain ${domain}. Endpoint must be https://`
+      )
+    }
   }
 
   headers() {
@@ -6352,7 +6367,7 @@ const { Query } = __nccwpck_require__(869)
  * @param {String} principleId The identity of the principal executing this action. Typically a github username or email address.
  * @param {String} assetId The identifier of an asset for this policy check. Typically the repo from the action. At least one of 'assetId' or 'action' is required.
  * @param {String} action An optional action to pass to SGNL. At least one of 'assetId' or 'action' is required.
- * @returns {Promise<String>} Resolves with {decision:boolean,reason:String}
+ * @returns {Promise<Object>} Resolves with {decision:boolean,reason:String}
  */
 async function sgnl(query) {
   const response = await axios.post(query.endpoint(), query.payload(), {
