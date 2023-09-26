@@ -4,13 +4,15 @@
 ![CI](https://github.com/actions/javascript-action/actions/workflows/ci.yml/badge.svg)
 ![Code Coverage](badges/coverage.svg)
 
-## Calling SGNL from a Github Action
-This SGNL-ai/policy-action allows you to call the SGNL API from a Github actions workflow. You can use
-this policy check to determine if the Github user is allowed to execute or trigger the workflow in
-question based on a policy definition in SGNL. To get started you will need to define a protected system and policy in the SGNL console. For more information on how to setup SGNL for Github, please see our [setup guide](https://help.sgnl.ai/articles/protected-systems/protected-system-github/)
+## Calling SGNL from a GitHub Action
+
+This SGNL-ai/policy-action allows you to call the SGNL API from a GitHub actions workflow. You can use
+this policy check to determine if the GitHub user is allowed to execute or trigger the workflow in
+question based on a policy definition in SGNL. To get started you will need to define a protected system and policy in the SGNL console. For more information on how to setup SGNL for GitHub, please see our [setup guide](https://help.sgnl.ai/articles/protected-systems/protected-system-github/)
 
 ### Example
-This example is passing the github username of the user who triggered the action as the principalId and the current repository as the assetId.
+
+This example is passing the GitHub username of the user who triggered the action as the principalId and the current repository as the assetId.
 
 ```yaml
 steps:
@@ -33,18 +35,21 @@ steps:
 ```
 
 ### Reporting bugs
-If you run into problems with this action, first please check https://help.sgnl.ai and https://developer.sgnl.ai. If that doesn't resolve the problem, please open a github ticket against this repository.
+
+If you run into problems with this action, first please check https://help.sgnl.ai and https://developer.sgnl.ai. If that doesn't resolve the problem, please open a GitHub ticket against this repository.
 
 ## Building and Releasing
 
 This section is for instructions on how to build and release the policy-action
 
 ### Setting up
+
 1. This action is written in javascript. You'll need a version of nodejs >= v20 (`node --version`)
 1. clone the repo
 1. run `npm run install` to install the dependencies
 
 ### Build loop
+
 1. create a feature branch
 1. add tests & make changes
 1. `npm run tests` should be green
@@ -56,9 +61,10 @@ This section is for instructions on how to build and release the policy-action
 Tests are using [Jest](https://jestjs.io/)
 
 ### Releasing
+
 After a release is merged, the release has to be tagged so other projects can use it correctly.
 
-Tags should ideally be signed. See [github documentation](https://docs.github.com/en/authentication/managing-commit-signature-verification/telling-git-about-your-signing-key) on setting up signing
+Tags should ideally be signed. See [GitHub documentation](https://docs.github.com/en/authentication/managing-commit-signature-verification/telling-git-about-your-signing-key) on setting up signing
 
 > [!NOTE]
 > Example: You are releasing a backwards compatible feature to the v1 major release.
@@ -73,6 +79,6 @@ Create a new tag to track your new feature more specifically
 
 `git tag -s -m "update v1.4.0 tag"`
 
-Push the tags up to github. The `-f` is required to update the v1 tag
+Push the tags up to GitHub. The `-f` is required to update the v1 tag
 
 `git push --tags --force`
