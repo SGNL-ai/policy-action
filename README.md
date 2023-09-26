@@ -36,12 +36,14 @@ steps:
 
   - name: Print Output
     id: output
-    run: echo "Decision '${{ steps.sgnl.outputs.decision }}', Reason '${{ steps.sgnl.outputs.reason }}'"
+    run: >
+      echo "Decision '${{ steps.sgnl.outputs.decision }}', 
+      Reason '${{ steps.sgnl.outputs.reason }}'"
 ```
 
 ### Reporting bugs
 
-If you run into problems with this action, first please check 
+If you run into problems with this action, first please check
 [help.sgnl.ai](https://help.sgnl.ai) and [developer.sgnl.ai](https://developer.sgnl.ai).
 If that doesn't resolve the problem, please open a GitHub
 ticket against this repository.
@@ -52,7 +54,7 @@ This section is for instructions on how to build and release the policy-action
 
 ### Setting up
 
-1. This action is written in JavaScript. You'll need a version of 
+1. This action is written in JavaScript. You'll need a version of
    nodejs >= v20 (`node --version`)
 1. clone the repository
 1. run `npm run install` to install the dependencies
@@ -62,7 +64,8 @@ This section is for instructions on how to build and release the policy-action
 1. create a feature branch
 1. add tests & make changes
 1. `npm run tests` should be green
-1. `npm run all` to package the release (this creates the bundled action in /dist)
+1. `npm run all` to package the release 
+   (this creates the bundled action in /dist)
 1. push your branch
 1. create a PR
 
@@ -82,7 +85,8 @@ Tags should ideally be signed. See [GitHub documentation](https://docs.github.co
 > release. Let's assume the next release is v1.4.0 (i.e. not a patch, not a
 > breaking change) then you would do the following to create the tags:
 
-Updating the existing v1 tag so existing workflows can take advantage of your new feature
+Updating the existing v1 tag so existing workflows can take
+advantage of your new feature
 
 `git tag -s -f -m "update v1 tag"`
 
