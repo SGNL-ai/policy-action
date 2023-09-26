@@ -64,7 +64,7 @@ This section is for instructions on how to build and release the policy-action
 1. create a feature branch
 1. add tests & make changes
 1. `npm run tests` should be green
-1. `npm run all` to package the release 
+1. `npm run all` to package the release
    (this creates the bundled action in /dist)
 1. push your branch
 1. create a PR
@@ -77,8 +77,6 @@ Tests are using [Jest](https://jestjs.io/)
 
 After a release is merged, the release has to be tagged so other projects can use
 it correctly.
-
-Tags should ideally be signed. See [GitHub documentation](https://docs.github.com/en/authentication/managing-commit-signature-verification/telling-git-about-your-signing-key) on setting up signing
 
 > [!NOTE]
 > Example: You are releasing a backwards compatible feature to the v1 major
