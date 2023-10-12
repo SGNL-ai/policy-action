@@ -43,17 +43,40 @@ describe('action', () => {
       principalId: 'p',
       assetId: 'a',
       action: 'b',
-      bypassMode: false
+      bypassMode: 'false'
     }
   })
 
-  it('skip SGNL API if bypass mode is true', async () => {
+  // scenarios that skip
+  it('does skip SGNL API if bypass mode is true', async () => {
     inputs.bypassMode = true
 
     await main.run()
     expect(core.getInput('bypassMode')).toBe(true)
     expect(sgnl).not.toHaveBeenCalled()
   })
+
+  // scenarios that do not skip
+  test.each([
+    { bypassMode: false },
+    { bypassMode: '' },
+    { bypassMode: 'false' },
+    { bypassMode: null },
+    { bypassMode: 'true' },
+    { bypassMode: 'asdfafadfa' },
+    { bypassMode: -1 },
+    { bypassMode: { a: 123 } },
+    { bypassMode: NaN }
+  ])(
+    'does not skip SGNL API if bypass mode is `$bypassMode`',
+    async ({ bypassMode }) => {
+      inputs.bypassMode = bypassMode
+
+      await main.run()
+      expect(core.getInput('bypassMode')).toBe(bypassMode)
+      expect(sgnl).toHaveBeenCalled()
+    }
+  )
 
   it('prints lots of warnings if bypas mode is true', async () => {
     inputs.bypassMode = true

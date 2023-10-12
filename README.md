@@ -63,7 +63,7 @@ This section is for instructions on how to build and release the policy-action
 
 1. create a feature branch
 1. add tests & make changes
-1. `npm run tests` should be green
+1. `npm run test` should be green
 1. `npm run all` to package the release
    (this creates the bundled action in /dist)
 1. push your branch
