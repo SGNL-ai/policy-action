@@ -10,7 +10,7 @@ const { Query } = require('./query')
  */
 async function run() {
   // skip calling SGNL if bypassMode is true.
-  if (core.getInput('bypassMode')) {
+  if (core.getInput('bypassMode') === true) {
     core.warning('*** WARNING: BYPASS MODE ENABLED ***')
     core.warning('*** Skipping SGNL Policy Checks ***')
     core.setOutput('reason', 'Skipping SGNL call due to bypassMode=true')
