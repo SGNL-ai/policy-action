@@ -86,11 +86,15 @@ it correctly.
 Updating the existing v1 tag so existing workflows can take
 advantage of your new feature
 
-`git tag -s -f -m "update v1 tag"`
+`git tag -s -f -m "update v1 tag" v1`
 
 Create a new tag to track your new feature more specifically
 
-`git tag -s -m "update v1.4.0 tag"`
+`git tag -s -m "update v1.4.0 tag" v1.4.0`
+
+Or, if you are just patching a bug against v1.4, create a patch tag for a bug fix
+
+`git tag -s -m "create v1.4.1 tag" v1.4.1`
 
 Push the tags up to GitHub. The `-f` is required to update the v1 tag
 
