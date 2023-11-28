@@ -92,7 +92,7 @@ Create a new tag to track your new feature more specifically
 
 `git tag -s -m "update v1.4.0 tag" v1.4.0`
 
-Or, if you are just patching a bug against v1.4, create a patch tag for a bug fix
+Or, if you are just patching a bug against v1.4, create a patch tag for a bugfix
 
 `git tag -s -m "create v1.4.1 tag" v1.4.1`
 
