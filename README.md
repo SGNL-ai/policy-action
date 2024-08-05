@@ -55,7 +55,7 @@ This section is for instructions on how to build and release the policy-action
 ### Setting up
 
 1. This action is written in JavaScript. You'll need a version of
-   nodejs >= v20 (`node --version`)
+   Node.js >= v20 (`node --version`)
 1. clone the repository
 1. run `npm run install` to install the dependencies
 
