@@ -1,7 +1,7 @@
 'use strict'
 
 class Query {
-  constructor (token, domain, principalId, assetId, action) {
+  constructor(token, domain, principalId, assetId, action) {
     this.token = token
     this.domain = domain
     this.principalId = principalId
@@ -34,17 +34,17 @@ class Query {
     }
   }
 
-  headers () {
+  headers() {
     return {
       Authorization: `Bearer ${this.token}`
     }
   }
 
-  endpoint () {
+  endpoint() {
     return this.endpointUrl.toString()
   }
 
-  payload () {
+  payload() {
     const _payload = {
       principal: null,
       queries: []

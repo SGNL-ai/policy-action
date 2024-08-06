@@ -13,7 +13,7 @@ const { Query } = require('./query')
  * @param {String} action An optional action to pass to SGNL. At least one of 'assetId' or 'action' is required.
  * @returns {Promise<Object>} Resolves with {decision:boolean,reason:String}
  */
-async function sgnl (query) {
+async function sgnl(query) {
   const response = await axios.post(query.endpoint(), query.payload(), {
     headers: query.headers()
   })
@@ -23,7 +23,7 @@ async function sgnl (query) {
   return parse(response)
 }
 
-function parse (response) {
+function parse(response) {
   return {
     decision: response.data.decisions[0].decision === 'Allow',
     reason: response.data.decisions[0].reasons
