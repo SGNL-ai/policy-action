@@ -1,8 +1,8 @@
 ## Pull request intention
 
-<!--- 
-  Please provide the intent of the story and delete 
-  options that are not relevant 
+<!---
+  Please provide the intent of the story and delete
+  options that are not relevant
 -->
 
 - [ ] New feature (non-breaking change which adds functionality)
@@ -23,13 +23,13 @@ Self identified pull request size
 
 ## Pull request checklist
 
-<!--- 
+<!---
   Please DO NOT DELETE checklist, and only add more if applied
 -->
 
 - [ ] I have performed a self-review of my own code
-- [ ] I have tested my code to prove my fix is effective or that my
-      feature works
+- [ ] I have tested my code to prove my fix is effective or that my feature
+      works
 - [ ] I have updated documentation (if applicable)
 
 <!-- markdownlint-disable-file MD041 -->
