@@ -1,8 +1,8 @@
 {
-  "name": "javascript-action",
-  "description": "GitHub Actions JavaScript Template",
+  "name": "policy-action",
+  "description": "SGNL.ai Policy Action",
   "version": "0.0.0",
-  "author": "",
+  "author": "SGNL.ai, Inc",
   "private": true,
   "homepage": "https://github.com/SGNL-ai/policy-action#readme",
   "repository": {
