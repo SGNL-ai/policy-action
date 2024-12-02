@@ -6,6 +6,7 @@ import { fileURLToPath } from 'node:url'
 import js from '@eslint/js'
 import { FlatCompat } from '@eslint/eslintrc'
 import github from 'eslint-plugin-github'
+import importPlugin from 'eslint-plugin-import'
 
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = path.dirname(__filename)
@@ -17,6 +18,7 @@ const compat = new FlatCompat({
 
 export default [
   github.getFlatConfigs().recommended,
+  importPlugin.flatConfigs.recommended,
   ...compat.extends('eslint:recommended', 'plugin:jest/recommended'),
   {
     ignores: [
@@ -63,15 +65,16 @@ export default [
       'eslint-comments/no-use': 'off',
       'eslint-comments/no-unused-disable': 'off',
       'i18n-text/no-en': 'off',
-      'import/no-commonjs': 'off',
-      'import/no-namespace': 'off',
       'no-console': 'off',
       'no-unused-vars': 'off',
       semi: 'off',
       'github/array-foreach': 'error',
       'github/async-preventdefault': 'warn',
       'github/no-then': 'error',
-      'github/no-blur': 'error'
+      'github/no-blur': 'error',
+      'importPlugin/no-commonjs': 'off',
+      'importPlugin/no-namespace': 'off',
+      'prettierPlugin/prettier': 'off'
     }
   }
 ]
