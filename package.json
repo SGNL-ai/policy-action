@@ -1,16 +1,16 @@
 {
-  "name": "javascript-action",
-  "description": "GitHub Actions JavaScript Template",
+  "name": "policy-action",
+  "description": "SGNL.ai Policy Action",
   "version": "0.0.0",
-  "author": "",
+  "author": "SGNL.ai, Inc",
   "private": true,
-  "homepage": "https://github.com/actions/javascript-action#readme",
+  "homepage": "https://github.com/SGNL-ai/policy-action#readme",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/actions/javascript-action.git"
+    "url": "git+https://github.com/SGNL-ai/policy-action.git"
   },
   "bugs": {
-    "url": "https://github.com/actions/javascript-action/issues"
+    "url": "https://github.com/SGNL-ai/policy-action/issues"
   },
   "keywords": [
     "GitHub",
@@ -21,14 +21,14 @@
     ".": "./dist/index.js"
   },
   "engines": {
-    "node": ">=20"
+    "node": ">=22"
   },
   "scripts": {
     "bundle": "npm run format:write && npm run package",
     "ci-test": "jest",
     "format:write": "prettier --write **/*.js",
     "format:check": "prettier --check **/*.js",
-    "lint": "npx eslint . -c ./.github/linters/.eslintrc.yml",
+    "lint": "npx eslint . -c ./.github/linters/eslint.config.mjs",
     "package": "ncc build src/index.js --license licenses.txt",
     "package:watch": "npm run package -- --watch",
     "test": "(jest && make-coverage-badge --output-path ./badges/coverage.svg) || make-coverage-badge --output-path ./badges/coverage.svg",
@@ -37,7 +37,7 @@
   },
   "license": "MIT",
   "eslintConfig": {
-    "extends": "./.github/linters/.eslintrc.yml"
+    "extends": "./.github/linters/eslint.config.mjs"
   },
   "jest": {
     "verbose": true,
@@ -73,7 +73,7 @@
     "@babel/preset-env": "^7.26.0",
     "@vercel/ncc": "^0.38.3",
     "babel-preset-jest": "^29.6.3",
-    "eslint": "^8.57.1",
+    "eslint": "^9.16.0",
     "eslint-plugin-github": "^5.1.3",
     "eslint-plugin-import": "^2.31.0",
     "eslint-plugin-jest": "^28.9.0",
