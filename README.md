@@ -89,12 +89,41 @@ new feature
 
 Create a new tag to track your new feature more specifically
 
-`git tag -s -m "update v1.4.0 tag" v1.4.0`
+`git tag -s -m "update v1.1.0 tag" v1.1.0`
 
-Or, if you are just patching a bug against v1.4, create a patch tag for a bugfix
+Or, if you are just patching a bug against v1.1, create a patch tag for a bugfix
 
-`git tag -s -m "create v1.4.1 tag" v1.4.1`
+`git tag -s -m "create v1.1.1 tag" v1.1.1`
 
 Push the tags up to GitHub. The `-f` is required to update the v1 tag
 
 `git push --tags --force`
+
+### debugging super-linter issues
+
+Occasionaly the super-linter runs into issues with GitHub Actions and you want
+to debug locally.
+
+#### Apple Silicon
+
+Until
+[super-linter#5070](https://github.com/super-linter/super-linter/issues/5070) is
+fixed
+
+```bash
+docker run --platform=linux/amd64 -e SHELL=/bin/bash -e DEFAULT_BRANCH=main -e \
+VALIDATE_JSCPD=false -e VALIDATE_JAVASCRIPT_STANDARD=false -e \
+VALIDATE_JAVASCRIPT_ES=false -e VALIDATE_JSON=false -e LOG_LEVEL=INFO \
+-e RUN_LOCAL=true -v /path/to/local/policy-action:/tmp/lint \
+--rm ghcr.io/super-linter/super-linter:latest
+```
+
+or generally other architectures
+
+```bash
+docker run -e DEFAULT_BRANCH=main -e VALIDATE_JSCPD=false \
+-e VALIDATE_JAVASCRIPT_STANDARD=false -e LOG_LEVEL=INFO \
+-e VALIDATE_JAVASCRIPT_ES=false -e VALIDATE_JSON=false -e \
+RUN_LOCAL=true -v /path/to/local/policy-action:/tmp/lint \
+--rm ghcr.io/super-linter/super-linter:latest
+```
