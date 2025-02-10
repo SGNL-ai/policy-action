@@ -7,7 +7,6 @@ import js from '@eslint/js'
 import { FlatCompat } from '@eslint/eslintrc'
 import github from 'eslint-plugin-github'
 
-
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = path.dirname(__filename)
 const compat = new FlatCompat({
@@ -18,7 +17,7 @@ const compat = new FlatCompat({
 
 export default [
   github.getFlatConfigs().recommended,
-  
+
   ...compat.extends('eslint:recommended', 'plugin:jest/recommended'),
   {
     ignores: [
