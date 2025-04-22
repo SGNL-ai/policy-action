@@ -162,8 +162,8 @@ describe('action', () => {
   // test domain parameter is passed correctly
   it('passes domain parameter to Query constructor', async () => {
     inputs.domain = 'abc.sgnlapis.cloud'
-    
-    sgnl.mockImplementation((query) => {
+
+    sgnl.mockImplementation(query => {
       // Verify query object received the correct domain
       expect(query.domain).toBe('abc.sgnlapis.cloud')
       expect(query.endpoint()).toContain('https://abc.sgnlapis.cloud')
