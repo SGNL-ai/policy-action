@@ -159,6 +159,21 @@ describe('action', () => {
     expect(setFailedMock).not.toHaveBeenCalled()
   })
 
+  // test domain parameter is passed correctly
+  it('passes domain parameter to Query constructor', async () => {
+    inputs.domain = 'abc.sgnlapis.cloud'
+    
+    sgnl.mockImplementation((query) => {
+      // Verify query object received the correct domain
+      expect(query.domain).toBe('abc.sgnlapis.cloud')
+      expect(query.endpoint()).toContain('https://abc.sgnlapis.cloud')
+      return { decision: true }
+    })
+
+    await main.run()
+    expect(sgnl).toHaveBeenCalled()
+  })
+
   // throw 401 exception
   it('fails job on non-200 error', async () => {
     sgnl.mockImplementation(() => {

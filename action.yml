@@ -4,8 +4,7 @@ description: Calls SGNL for a policy check. Also see https://developer.sgnl.ai/
 inputs:
   domain:
     required: true
-    description: The SGNL API hostname.
-    default: access.sgnlapis.cloud
+    description: The SGNL API hostname -> {subdomain}.sgnlapis.cloud
   token:
     required: true
     description:
