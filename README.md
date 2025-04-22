@@ -27,8 +27,9 @@ steps:
 
   - name: SGNL Policy Check
     id: sgnl
-    uses: SGNL-ai/policy-action@v1
+    uses: SGNL-ai/policy-action@v2
     with:
+      domain: ${{ vars.SGNL_SUBDOMAIN }}.sgnlapis.cloud
       token: ${{ secrets.SGNL_TOKEN }}
       principalId: ${{ github.actor }}
       action: 'my action'
@@ -78,24 +79,24 @@ Tests are using [Jest](https://jestjs.io/)
 After a release is merged, the release has to be tagged so other projects can
 use it correctly.
 
-> [!NOTE] Example: You are releasing a backwards compatible feature to the v1
-> major release. Let's assume the next release is v1.4.0 (i.e. not a patch, not
+> [!NOTE] Example: You are releasing a backwards compatible feature to the v2
+> major release. Let's assume the next release is v2.1.0 (i.e. not a patch, not
 > a breaking change) then you would do the following to create the tags:
 
-Updating the existing v1 tag so existing workflows can take advantage of your
+Updating the existing v2 tag so existing workflows can take advantage of your
 new feature
 
-`git tag -s -f -m "update v1 tag" v1`
+`git tag -s -f -m "update v2 tag" v2`
 
 Create a new tag to track your new feature more specifically
 
-`git tag -s -m "update v1.1.0 tag" v1.1.0`
+`git tag -s -m "update v2.1.0 tag" v2.1.0`
 
-Or, if you are just patching a bug against v1.1, create a patch tag for a bugfix
+Or, if you are just patching a bug against v2.0, create a patch tag for a bugfix
 
-`git tag -s -m "create v1.1.1 tag" v1.1.1`
+`git tag -s -m "create v2.0.1 tag" v2.0.1`
 
-Push the tags up to GitHub. The `-f` is required to update the v1 tag
+Push the tags up to GitHub. The `-f` is required to update the v2 tag
 
 `git push --tags --force`
 
