@@ -19,10 +19,11 @@ jobs:
       (github.event_name == 'issues' && (contains(github.event.issue.body, '@claude') || contains(github.event.issue.title, '@claude')))
     runs-on: ubuntu-latest
     timeout-minutes: 30
+    # checkov:skip=CKV2_GHA_1: Claude needs write access to contents, issues, and PRs
     permissions:
       contents: write
-      pull-requests: write  
       issues: write
+      pull-requests: write
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
