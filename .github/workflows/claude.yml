@@ -22,9 +22,11 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 30
     permissions:
+      actions: read
       contents: write
       issues: write
       pull-requests: write
+      statuses: read
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
