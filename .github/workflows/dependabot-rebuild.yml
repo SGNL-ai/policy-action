@@ -5,6 +5,8 @@ on:
     branches: [main]
     types: [opened, synchronize]
 
+permissions: {}
+
 jobs:
   rebuild-and-approve:
     if: github.actor == 'dependabot[bot]'

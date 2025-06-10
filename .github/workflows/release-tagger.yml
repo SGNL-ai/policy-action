@@ -5,6 +5,8 @@ on:
     branches: [main]
     paths: ['dist/index.js']
 
+permissions: {}
+
 jobs:
   tag-release:
     runs-on: ubuntu-latest
