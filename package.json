@@ -72,13 +72,13 @@
     "@babel/eslint-parser": "^7.27.5",
     "@babel/preset-env": "^7.27.2",
     "@vercel/ncc": "^0.38.3",
-    "babel-preset-jest": "^30.0.0",
+    "babel-preset-jest": "^30.0.1",
     "eslint": "^9.29.0",
     "eslint-plugin-github": "^6.0.0",
-    "eslint-plugin-import": "^2.31.0",
+    "eslint-plugin-import": "^2.32.0",
     "eslint-plugin-jest": "^28.14.0",
-    "jest": "^30.0.0",
+    "jest": "^30.0.2",
     "make-coverage-badge": "^1.2.0",
-    "prettier": "^3.5.3"
+    "prettier": "^3.6.0"
   }
 }
