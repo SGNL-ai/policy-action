@@ -9,9 +9,13 @@ on:
       - 'releases/*'
 
 jobs:
+  dist-management:
+    uses: ./.github/workflows/dist-management.yml
+
   test-javascript:
     name: JavaScript Tests
     runs-on: ubuntu-latest
+    needs: [dist-management]
 
     steps:
       - name: Checkout
