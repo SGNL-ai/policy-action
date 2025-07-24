@@ -2,21 +2,29 @@ name: Lint Code Base
 permissions: read-all
 
 on:
+  workflow_run:
+    workflows: ['Dist Management']
+    types: [completed]
+    branches: [main]
   pull_request:
     branches:
       - main
+    paths-ignore:
+      - '**.md'
   push:
     branches-ignore:
       - main
+    paths-ignore:
+      - '**.md'
 
 jobs:
-  dist-management:
-    uses: ./.github/workflows/dist-management.yml
-
   lint:
     name: Lint Code Base
     runs-on: ubuntu-latest
-    needs: [dist-management]
+    # Only run if dist management succeeded or if this is a direct trigger
+    if:
+      github.event.workflow_run.conclusion == 'success' || github.event_name !=
+      'workflow_run'
 
     permissions:
       contents: read
