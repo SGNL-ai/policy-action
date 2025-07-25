@@ -1,0 +1,85 @@
+{
+  "name": "policy-action",
+  "description": "SGNL.ai Policy Action",
+  "version": "0.0.0",
+  "author": "SGNL.ai, Inc",
+  "private": true,
+  "homepage": "https://github.com/SGNL-ai/policy-action#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/SGNL-ai/policy-action.git"
+  },
+  "bugs": {
+    "url": "https://github.com/SGNL-ai/policy-action/issues"
+  },
+  "keywords": [
+    "GitHub",
+    "Actions",
+    "JavaScript"
+  ],
+  "exports": {
+    ".": "./dist/index.js"
+  },
+  "engines": {
+    "node": ">=22"
+  },
+  "scripts": {
+    "bundle": "npm run format:write && npm run package",
+    "ci-test": "jest",
+    "format:write": "prettier --write **/*.js",
+    "format:check": "prettier --check **/*.js",
+    "lint": "npx eslint . -c ./.github/linters/eslint.config.mjs",
+    "package": "ncc build src/index.js --license licenses.txt",
+    "package:watch": "npm run package -- --watch",
+    "test": "(jest && make-coverage-badge --output-path ./badges/coverage.svg) || make-coverage-badge --output-path ./badges/coverage.svg",
+    "test:watch": "jest --watch",
+    "all": "npm run format:write && npm run lint && npm run test && npm run package"
+  },
+  "license": "MIT",
+  "eslintConfig": {
+    "extends": "./.github/linters/eslint.config.mjs"
+  },
+  "jest": {
+    "verbose": true,
+    "clearMocks": true,
+    "testEnvironment": "node",
+    "moduleFileExtensions": [
+      "js"
+    ],
+    "testMatch": [
+      "**/*.test.js"
+    ],
+    "testPathIgnorePatterns": [
+      "/node_modules/",
+      "/dist/"
+    ],
+    "coverageReporters": [
+      "json-summary",
+      "text",
+      "lcov"
+    ],
+    "collectCoverage": true,
+    "collectCoverageFrom": [
+      "./src/**"
+    ]
+  },
+  "dependencies": {
+    "@actions/core": "^1.11.1",
+    "axios": "^1.11.0"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.28.0",
+    "@babel/eslint-parser": "^7.28.0",
+    "@babel/preset-env": "^7.28.0",
+    "@vercel/ncc": "^0.38.3",
+    "babel-preset-jest": "^30.0.1",
+    "eslint": "^9.31.0",
+    "eslint-plugin-github": "^6.0.0",
+    "eslint-plugin-import": "^2.32.0",
+    "eslint-plugin-jest": "^29.0.1",
+    "globals": "^16.3.0",
+    "jest": "^30.0.4",
+    "make-coverage-badge": "^1.2.0",
+    "prettier": "^3.6.2"
+  }
+}

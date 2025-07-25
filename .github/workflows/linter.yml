@@ -1,0 +1,63 @@
+name: Lint Code Base
+permissions: read-all
+
+on:
+  workflow_run:
+    workflows: ['Dist Management']
+    types: [completed]
+    branches: [main]
+  pull_request:
+    branches:
+      - main
+    paths-ignore:
+      - '**.md'
+  push:
+    branches-ignore:
+      - main
+    paths-ignore:
+      - '**.md'
+
+jobs:
+  lint:
+    name: Lint Code Base
+    runs-on: ubuntu-latest
+    # Only run if dist management succeeded or if this is a direct trigger
+    if:
+      github.event.workflow_run.conclusion == 'success' || github.event_name !=
+      'workflow_run'
+
+    permissions:
+      contents: read
+      packages: read
+      statuses: write
+
+    steps:
+      - name: Checkout
+        id: checkout
+        uses: actions/checkout@v4
+        with:
+          # super-linter needs the full git history to get the
+          # list of files that changed across commits
+          fetch-depth: 0
+
+      - name: Setup Node.js
+        id: setup-node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Install Dependencies
+        id: install
+        run: npm ci
+
+      - name: Lint Code Base
+        id: super-linter
+        uses: super-linter/super-linter/slim@v8
+        env:
+          DEFAULT_BRANCH: main
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          VALIDATE_JAVASCRIPT_STANDARD: false
+          VALIDATE_JSCPD: false
+          VALIDATE_JAVASCRIPT_ES: false
+          VALIDATE_JSON: false

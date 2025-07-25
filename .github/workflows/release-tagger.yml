@@ -1,0 +1,63 @@
+name: Release Tagger
+
+on:
+  push:
+    branches: [main]
+    paths: ['dist/index.js']
+
+permissions: {}
+
+jobs:
+  tag-release:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Get current version
+        id: version
+        run: |
+          # Get the current major version from existing tags
+          CURRENT_MAJOR=$(git tag | grep -E "^v[0-9]+$" | sed 's/v//' | sort -n | tail -1)
+          if [ -z "$CURRENT_MAJOR" ]; then
+            CURRENT_MAJOR=1
+          fi
+
+          # Get the latest patch version for this major version
+          LATEST_PATCH=$(git tag | grep -E "^v${CURRENT_MAJOR}\.[0-9]+\.[0-9]+$" | sed "s/v${CURRENT_MAJOR}\.//" | sort -V | tail -1)
+          if [ -z "$LATEST_PATCH" ]; then
+            NEW_VERSION="v${CURRENT_MAJOR}.0.0"
+          else
+            PATCH_NUM=$(echo "$LATEST_PATCH" | cut -d'.' -f2)
+            NEW_PATCH=$((PATCH_NUM + 1))
+            NEW_VERSION="v${CURRENT_MAJOR}.0.${NEW_PATCH}"
+          fi
+
+          echo "new_version=$NEW_VERSION" >> "$GITHUB_OUTPUT"
+          echo "major_version=v$CURRENT_MAJOR" >> "$GITHUB_OUTPUT"
+      - name: Create patch tag
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          git tag ${{ steps.version.outputs.new_version }}
+          git push origin ${{ steps.version.outputs.new_version }}
+      - name: Update major version tag
+        run: |
+          git tag -f ${{ steps.version.outputs.major_version }}
+          git push origin ${{ steps.version.outputs.major_version }} --force
+      - name: Create release
+        uses: actions/github-script@v7
+        with:
+          script: |
+            await github.rest.repos.createRelease({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              tag_name: '${{ steps.version.outputs.new_version }}',
+              name: '${{ steps.version.outputs.new_version }}',
+              body: 'Automated release for dist changes',
+              draft: false,
+              prerelease: false
+            });
