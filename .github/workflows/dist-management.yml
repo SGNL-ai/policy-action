@@ -71,10 +71,10 @@ jobs:
           git config --local user.email "action@github.com"
           git config --local user.name "GitHub Action"
           git add dist/
-          git commit -m "chore: update dist files"
-          git push
+          git commit --amend --no-edit
+          git push --force
           echo "updated=true" >> "$GITHUB_OUTPUT"
-          echo "✅ Dist files updated and committed"
+          echo "✅ Dist files updated via commit amend"
 
       - name: Auto-approve Dependabot PRs
         if:
