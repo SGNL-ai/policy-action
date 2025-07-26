@@ -35,6 +35,7 @@ jobs:
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           ref: ${{ github.head_ref }}
+          persist-credentials: false
 
       - name: Setup Node.js
         uses: actions/setup-node@v4
@@ -72,15 +73,19 @@ jobs:
           app-id: ${{ secrets.APP_ID }}
           private-key: ${{ secrets.APP_PRIVATE_KEY }}
 
+      - name: Configure Git with App Token
+        if: steps.diff.outputs.has_changes == 'true' && github.event_name == 'pull_request'
+        run: |
+          git config --global user.name '${{ steps.app_token.outputs.app-slug }}[bot]'
+          git config --global user.email '${{ steps.app_token.outputs.app-slug }}[bot]@users.noreply.github.com'
+          git config --global url."https://x-access-token:${{ steps.app_token.outputs.token }}@github.com".insteadOf "https://github.com"
+
       - name: Update dist for PRs
         id: update
         if:
           steps.diff.outputs.has_changes == 'true' && github.event_name ==
           'pull_request'
         run: |
-          git config --local user.email "action@github.com"
-          git config --local user.name "GitHub Action"
-          git config --local http.https://github.com/.extraheader "AUTHORIZATION: bearer ${{ steps.app_token.outputs.token }}"
           git add dist/
           git commit -m "chore: update dist files"
           git push
