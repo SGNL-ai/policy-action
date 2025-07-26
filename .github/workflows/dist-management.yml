@@ -94,7 +94,6 @@ jobs:
           echo "updated=true" >> "$GITHUB_OUTPUT"
           echo "✅ Dist files updated and committed"
 
-
       - name: Fail if dist out of sync on main
         if:
           steps.diff.outputs.has_changes == 'true' && github.event_name ==
