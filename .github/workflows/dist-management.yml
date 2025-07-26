@@ -67,7 +67,7 @@ jobs:
         if:
           steps.diff.outputs.has_changes == 'true' && github.event_name ==
           'pull_request'
-        uses: actions/create-github-app-token@v1
+        uses: actions/create-github-app-token@v2
         with:
           app-id: ${{ secrets.APP_ID }}
           private-key: ${{ secrets.APP_PRIVATE_KEY }}
