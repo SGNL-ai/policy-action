@@ -74,7 +74,9 @@ jobs:
           private-key: ${{ secrets.APP_PRIVATE_KEY }}
 
       - name: Configure Git with App Token
-        if: steps.diff.outputs.has_changes == 'true' && github.event_name == 'pull_request'
+        if:
+          steps.diff.outputs.has_changes == 'true' && github.event_name ==
+          'pull_request'
         run: |
           git config --global user.name '${{ steps.app_token.outputs.app-slug }}[bot]'
           git config --global user.email '${{ steps.app_token.outputs.app-slug }}[bot]@users.noreply.github.com'
@@ -91,20 +93,6 @@ jobs:
           git push
           echo "updated=true" >> "$GITHUB_OUTPUT"
           echo "✅ Dist files updated and committed"
-
-      - name: Auto-approve Dependabot PRs
-        if:
-          github.event_name == 'pull_request' && (github.actor ==
-          'dependabot[bot]' || github.actor == 'app/dependabot')
-        uses: actions/github-script@v7
-        with:
-          script: |
-            await github.rest.pulls.createReview({
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              pull_number: context.issue.number,
-              event: 'APPROVE'
-            });
 
       - name: Fail if dist out of sync on main
         if:
