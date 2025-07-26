@@ -80,7 +80,7 @@ jobs:
         run: |
           git config --local user.email "action@github.com"
           git config --local user.name "GitHub Action"
-          git config --local http.https://github.com/.extraheader "AUTHORIZATION: bearer ${{ steps.app_token.outputs.token }}"
+          git remote set-url origin https://x-access-token:${{ steps.app_token.outputs.token }}@github.com/${{ github.repository }}
           git add dist/
           git commit -m "chore: update dist files"
           git push
