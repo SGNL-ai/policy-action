@@ -62,6 +62,16 @@ jobs:
             echo "No changes detected in dist/ directory"
           fi
 
+      - name: Generate GitHub App token
+        id: app_token
+        if:
+          steps.diff.outputs.has_changes == 'true' && github.event_name ==
+          'pull_request'
+        uses: actions/create-github-app-token@v1
+        with:
+          app-id: ${{ secrets.APP_ID }}
+          private-key: ${{ secrets.APP_PRIVATE_KEY }}
+
       - name: Update dist for PRs
         id: update
         if:
@@ -71,10 +81,12 @@ jobs:
           git config --local user.email "action@github.com"
           git config --local user.name "GitHub Action"
           git add dist/
-          git commit --amend --no-edit
-          git push --force
+          git commit -m "chore: update dist files"
+          git push
           echo "updated=true" >> "$GITHUB_OUTPUT"
-          echo "✅ Dist files updated via commit amend"
+          echo "✅ Dist files updated and committed"
+        env:
+          GITHUB_TOKEN: ${{ steps.app_token.outputs.token }}
 
       - name: Auto-approve Dependabot PRs
         if:
