@@ -1,5 +1,8 @@
 name: Lint Code Base
-permissions: read-all
+permissions:
+  contents: read
+  packages: read
+  statuses: write
 
 on:
   pull_request:
@@ -30,7 +33,7 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: 22
-          cache: npm
+          cache: ${{ github.event_name != 'pull_request' && 'npm' || '' }}
 
       - name: Install Dependencies
         run: npm ci
@@ -73,7 +76,7 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: 22
-          cache: npm
+          cache: ${{ github.event_name != 'pull_request' && 'npm' || '' }}
 
       - name: Install Dependencies
         id: install
