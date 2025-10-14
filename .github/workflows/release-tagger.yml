@@ -44,17 +44,19 @@ jobs:
           git config --local user.email "action@github.com"
           git config --local user.name "GitHub Action"
           git tag "${STEPS_VERSION_OUTPUTS_NEW_VERSION}"
-          git push origin "${STEPS_VERSION_OUTPUTS_NEW_VERSION}"
+          git push "https://x-access-token:${GITHUB_TOKEN}@github.com/${GITHUB_REPOSITORY}.git" "${STEPS_VERSION_OUTPUTS_NEW_VERSION}"
         env:
           STEPS_VERSION_OUTPUTS_NEW_VERSION:
             ${{ steps.version.outputs.new_version }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - name: Update major version tag
         run: |
           git tag -f "${STEPS_VERSION_OUTPUTS_MAJOR_VERSION}"
-          git push origin "${STEPS_VERSION_OUTPUTS_MAJOR_VERSION}" --force
+          git push "https://x-access-token:${GITHUB_TOKEN}@github.com/${GITHUB_REPOSITORY}.git" "${STEPS_VERSION_OUTPUTS_MAJOR_VERSION}" --force
         env:
           STEPS_VERSION_OUTPUTS_MAJOR_VERSION:
             ${{ steps.version.outputs.major_version }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - name: Create release
         uses: actions/github-script@v8
         env:
