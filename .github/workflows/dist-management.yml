@@ -78,11 +78,12 @@ jobs:
           steps.diff.outputs.has_changes == 'true' && github.event_name ==
           'pull_request'
         run: |
-          git config --global user.name '${STEPS_APP_TOKEN_OUTPUTS_APP_SLUG}[bot]'
-          git config --global user.email '${STEPS_APP_TOKEN_OUTPUTS_APP_SLUG}[bot]@users.noreply.github.com'
+          git config --global user.name "${STEPS_APP_TOKEN_OUTPUTS_APP_SLUG}[bot]"
+          git config --global user.email "${STEPS_APP_TOKEN_OUTPUTS_APP_SLUG}[bot]@users.noreply.github.com"
           git config --global url."https://x-access-token:${STEPS_APP_TOKEN_OUTPUTS_TOKEN}@github.com".insteadOf "https://github.com"
         env:
-          STEPS_APP_TOKEN_OUTPUTS_APP_SLUG: ${{ steps.app_token.outputs.app-slug }}
+          STEPS_APP_TOKEN_OUTPUTS_APP_SLUG:
+            ${{ steps.app_token.outputs.app-slug }}
           STEPS_APP_TOKEN_OUTPUTS_TOKEN: ${{ steps.app_token.outputs.token }}
 
       - name: Update dist for PRs
