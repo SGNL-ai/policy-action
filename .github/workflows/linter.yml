@@ -92,3 +92,4 @@ jobs:
           VALIDATE_JSON: false
           VALIDATE_BIOME_FORMAT: false
           VALIDATE_BIOME_LINT: false
+          FILTER_REGEX_EXCLUDE: dist/.*

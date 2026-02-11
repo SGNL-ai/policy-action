@@ -102,7 +102,7 @@ Push the tags up to GitHub. The `-f` is required to update the v2 tag
 
 ### debugging super-linter issues
 
-Occasionaly the super-linter runs into issues with GitHub Actions and you want
+Occasionally the super-linter runs into issues with GitHub Actions and you want
 to debug locally.
 
 #### Apple Silicon

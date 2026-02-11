@@ -78,7 +78,7 @@ describe('action', () => {
     }
   )
 
-  it('prints lots of warnings if bypas mode is true', async () => {
+  it('prints lots of warnings if bypass mode is true', async () => {
     inputs.bypassMode = true
 
     await main.run()
