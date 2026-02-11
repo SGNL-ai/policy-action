@@ -1,9 +1,0 @@
-rules:
-  unpinned-uses:
-    ignore:
-      - ci.yml
-      - claude.yml
-      - codeql-analysis.yml
-      - dist-management.yml
-      - linter.yml
-      - release-tagger.yml
