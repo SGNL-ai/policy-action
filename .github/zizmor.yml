@@ -1,0 +1,9 @@
+rules:
+  unpinned-uses:
+    ignore:
+      - workflows/ci.yml
+      - workflows/claude.yml
+      - workflows/codeql-analysis.yml
+      - workflows/dist-management.yml
+      - workflows/linter.yml
+      - workflows/release-tagger.yml
