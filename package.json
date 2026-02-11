@@ -63,6 +63,9 @@
       "./src/**"
     ]
   },
+  "overrides": {
+    "undici": "^6.23.0"
+  },
   "dependencies": {
     "@actions/core": "^2.0.1",
     "axios": "^1.13.2"
