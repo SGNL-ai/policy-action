@@ -67,7 +67,7 @@
     "undici": "^6.23.0"
   },
   "dependencies": {
-    "@actions/core": "^2.0.1",
+    "@actions/core": "^3.0.0",
     "axios": "^1.13.5"
   },
   "devDependencies": {
