@@ -64,8 +64,8 @@
     ]
   },
   "overrides": {
-    "undici": "^6.24.0",
-    "axios": "1.13.5"
+    "axios": "1.13.5",
+    "undici": "7.24.1"
   },
   "dependencies": {
     "@actions/core": "^2.0.1",
