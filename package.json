@@ -65,11 +65,11 @@
   },
   "overrides": {
     "undici": "^6.24.0",
-    "axios": "1.13.5"
+    "axios": "1.15.0"
   },
   "dependencies": {
     "@actions/core": "^2.0.1",
-    "axios": "1.13.5"
+    "axios": "1.15.0"
   },
   "devDependencies": {
     "@babel/core": "^7.29.0",
