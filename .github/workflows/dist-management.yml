@@ -19,6 +19,7 @@ jobs:
   manage-dist:
     name: Check and Update Dist
     runs-on: ubuntu-latest
+    environment: github-actions
 
     permissions:
       contents: write
