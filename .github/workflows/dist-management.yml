@@ -19,6 +19,7 @@ jobs:
   manage-dist:
     name: Check and Update Dist
     runs-on: ubuntu-latest
+    environment: github-actions
 
     permissions:
       contents: write
@@ -31,7 +32,7 @@ jobs:
     steps:
       - name: Checkout
         id: checkout
-        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           ref: ${{ github.head_ref }}
