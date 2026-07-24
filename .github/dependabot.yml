@@ -1,20 +1,5 @@
 version: 2
 updates:
-  - package-ecosystem: github-actions
-    directory: /
-    labels:
-      - dependabot
-      - actions
-    schedule:
-      interval: weekly
-    groups:
-      actions-minor:
-        update-types:
-          - minor
-          - patch
-    cooldown:
-      default-days: 7
-
   - package-ecosystem: npm
     directory: /
     labels:
