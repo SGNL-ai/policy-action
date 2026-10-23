@@ -37,5 +37,5 @@ outputs:
   decision:
     description: Policy decision as a boolean. (true = Allow, false = Deny)
 runs:
-  using: node20
+  using: node24
   main: dist/index.js
